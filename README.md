@@ -3,21 +3,6 @@
 ## Objetivo
 El objetivo de este proyecto es validar los conocimientos adquiridos para desarrollar un microservicio que realice operaciones CRUD sobre una tabla de canciones, utilizando Java Spring Boot y SQL Server, y su despliegue mediante contenedores Docker.
 
-## Materiales y recursos
-- Computador con acceso a Internet
-- IDE de preferencia (Eclipse, IntelliJ IDEA, VS Code, etc.)
-- Navegador web moderno
-- Postman, Insomnia o cualquier herramienta para probar los endpoints
-
-## Requerimientos generales
-1. **Operaciones CRUD:**
-   - Crear, leer, actualizar y eliminar canciones sobre la tabla `TBL_SONG`.
-   - Campos requeridos: `Id` (identificador único), `Name` (nombre de la canción), `Path` (ruta o URL), `Plays` (número de reproducciones).
-2. **Lenguaje:**
-   - Java 17 con Spring Boot (puedes usar cualquier lenguaje excepto C#).
-3. **Base de datos:**
-   - SQL Server (puedes usar cualquier base de datos relacional o NoSQL).
-
 ## Configuración inicial
 - **Lenguaje:** Java 17
 - **Framework:** Spring Boot, Spring Web, Spring Data JPA
