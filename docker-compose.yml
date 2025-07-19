@@ -1,8 +1,7 @@
-version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
+    container_name: sqlserver_songapi
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Politecnica1
@@ -10,7 +9,15 @@ services:
     ports:
       - "14490:1433"
     volumes:
-      - sqlserverdata:/var/opt/mssql
+      - ./init-sqlserver.sql:/init-sqlserver.sql:ro
+
+  db-init:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    entrypoint: ["/bin/bash", "-c", "for i in {1..30}; do /opt/mssql-tools/bin/sqlcmd -S sqlserver_songapi -U sa -P Politecnica1 -Q 'SELECT 1' && break; echo 'Esperando a que SQL Server acepte conexiones...'; sleep 3; done; /opt/mssql-tools/bin/sqlcmd -S sqlserver_songapi -U sa -P Politecnica1 -i /init-sqlserver.sql"]
+    volumes:
+      - ./init-sqlserver.sql:/init-sqlserver.sql:ro
 
   songapi:
     build: .
@@ -30,7 +37,4 @@ services:
     dns:
       - 8.8.8.8
       - 1.1.1.1
-    restart: on-failure
-
-volumes:
-  sqlserverdata: 
+    restart: on-failure 
