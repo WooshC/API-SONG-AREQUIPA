@@ -281,8 +281,6 @@ A continuación se muestran ejemplos de pruebas realizadas sobre los endpoints p
 
 ## 4. Despliegue
 
-### Contenerización y despliegue en la nube
-
 **a) Contenerización:**
 - Se creó un `Dockerfile` multi-stage para construir y empaquetar la aplicación Java.
 - Se usó `docker-compose.yml` para orquestar el microservicio y la base de datos SQL Server, incluyendo un script de inicialización automática para la base.
@@ -293,15 +291,5 @@ A continuación se muestran ejemplos de pruebas realizadas sobre los endpoints p
   docker build -t <tu_usuario>/songapi:latest .
   docker push <tu_usuario>/songapi:latest
   ```
-
-**c) Despliegue en Azure Web App for Containers:**
-1. Se creó una Web App en Azure Portal, seleccionando “Contenedor Docker” como método de despliegue.
-2. Se configuró el origen de la imagen como Docker Hub, indicando la imagen `<tu_usuario>/songapi:latest`.
-3. Se estableció el puerto de la aplicación en 8080.
-4. (Opcional) Se configuraron variables de entorno para la conexión a la base de datos si se usó una base en la nube.
-5. Se revisó y creó la aplicación, obteniendo una URL pública para acceder al microservicio.
-
-**d) Verificación:**
-- Se accedió a la URL pública proporcionada por Azure y se verificó el funcionamiento de los endpoints y la documentación Swagger.
 
 ---
