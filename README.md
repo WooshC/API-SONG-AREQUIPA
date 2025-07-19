@@ -111,3 +111,193 @@ Las capturas deben mostrar la URL del endpoint, el método HTTP, el body de la p
 ---
 
 **Autor:** Moises Arequipa
+
+---
+
+# Documentación Técnica
+
+## 1. Configuración inicial
+
+### Herramientas, lenguajes, bibliotecas y frameworks utilizados
+
+- **Lenguaje de programación:** Java 17
+- **Framework principal:** Spring Boot
+- **Bibliotecas:**
+  - Spring Web
+  - Spring Data JPA
+  - Driver JDBC para SQL Server
+  - Springdoc OpenAPI (Swagger UI)
+- **Contenedores:** Docker y Docker Compose
+- **Base de datos:** SQL Server 2022 (en contenedor Docker)
+- **Herramientas adicionales:**
+  - Postman/Insomnia (para pruebas manuales)
+  - IDE: Eclipse, IntelliJ IDEA o VS Code
+
+## 2. Desarrollo
+
+### Código fuente principal
+
+#### Clase principal de la aplicación
+```java
+package com.example.songapi;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SongApiApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SongApiApplication.class, args);
+    }
+}
+```
+
+#### Entidad Song
+```java
+package com.example.songapi.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "TBL_SONG")
+public class Song {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_SONG")
+    private Integer id;
+
+    @Column(name = "SONG_NAME", nullable = false)
+    private String name;
+
+    @Column(name = "SONG_PATH", nullable = false)
+    private String path;
+
+    @Column(name = "PLAYS")
+    private Integer plays;
+
+    // Getters y setters...
+}
+```
+
+#### Repositorio
+```java
+package com.example.songapi.repository;
+
+import com.example.songapi.model.Song;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SongRepository extends JpaRepository<Song, Integer> {}
+```
+
+#### Servicio
+```java
+package com.example.songapi.service;
+
+import com.example.songapi.model.Song;
+import com.example.songapi.repository.SongRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SongService {
+    private final SongRepository repository;
+
+    public SongService(SongRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<Song> findAll() { return repository.findAll(); }
+    public Optional<Song> findById(Integer id) { return repository.findById(id); }
+    public Song save(Song song) { return repository.save(song); }
+    public void deleteById(Integer id) { repository.deleteById(id); }
+}
+```
+
+#### Controlador
+```java
+package com.example.songapi.controller;
+
+import com.example.songapi.model.Song;
+import com.example.songapi.service.SongService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/songs")
+public class SongController {
+    private final SongService service;
+
+    public SongController(SongService service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public List<Song> getAll() { return service.findAll(); }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Song> getById(@PathVariable Integer id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Song create(@RequestBody Song song) { return service.save(song); }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Song> update(@PathVariable Integer id, @RequestBody Song song) {
+        return service.findById(id)
+                .map(existing -> {
+                    existing.setName(song.getName());
+                    existing.setPath(song.getPath());
+                    existing.setPlays(song.getPlays());
+                    return ResponseEntity.ok(service.save(existing));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        if (service.findById(id).isPresent()) {
+            service.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+}
+```
+
+## 3. Pruebas funcionales
+
+*(Incluye aquí tus capturas de pantalla y descripciones de pruebas con Postman, Insomnia, etc. mostrando los endpoints CRUD funcionando.)*
+
+## 4. Despliegue
+
+### Contenerización y despliegue en la nube
+
+**a) Contenerización:**
+- Se creó un `Dockerfile` multi-stage para construir y empaquetar la aplicación Java.
+- Se usó `docker-compose.yml` para orquestar el microservicio y la base de datos SQL Server, incluyendo un script de inicialización automática para la base.
+
+**b) Publicación de la imagen:**
+- Se construyó la imagen Docker y se subió a Docker Hub:
+  ```sh
+  docker build -t <tu_usuario>/songapi:latest .
+  docker push <tu_usuario>/songapi:latest
+  ```
+
+**c) Despliegue en Azure Web App for Containers:**
+1. Se creó una Web App en Azure Portal, seleccionando “Contenedor Docker” como método de despliegue.
+2. Se configuró el origen de la imagen como Docker Hub, indicando la imagen `<tu_usuario>/songapi:latest`.
+3. Se estableció el puerto de la aplicación en 8080.
+4. (Opcional) Se configuraron variables de entorno para la conexión a la base de datos si se usó una base en la nube.
+5. Se revisó y creó la aplicación, obteniendo una URL pública para acceder al microservicio.
+
+**d) Verificación:**
+- Se accedió a la URL pública proporcionada por Azure y se verificó el funcionamiento de los endpoints y la documentación Swagger.
+
+---
