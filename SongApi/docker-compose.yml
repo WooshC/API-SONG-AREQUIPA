@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Politecnica1
+      - MSSQL_PID=Express
+    ports:
+      - "14490:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
+  songapi:
+    build: .
+    container_name: songapi
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://sqlserver:1433;databaseName=BDD_PoliMusic_Song;trustServerCertificate=true
+      - SPRING_DATASOURCE_USERNAME=usr_polimusic_gr2
+      - SPRING_DATASOURCE_PASSWORD=Politecnica1
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.microsoft.sqlserver.jdbc.SQLServerDriver
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.SQLServerDialect
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    restart: on-failure
+
+volumes:
+  sqlserverdata: 
