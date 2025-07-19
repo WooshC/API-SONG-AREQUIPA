@@ -114,27 +114,6 @@ Las capturas deben mostrar la URL del endpoint, el método HTTP, el body de la p
 
 ---
 
-# Documentación Técnica
-
-## 1. Configuración inicial
-
-### Herramientas, lenguajes, bibliotecas y frameworks utilizados
-
-- **Lenguaje de programación:** Java 17
-- **Framework principal:** Spring Boot
-- **Bibliotecas:**
-  - Spring Web
-  - Spring Data JPA
-  - Driver JDBC para SQL Server
-  - Springdoc OpenAPI (Swagger UI)
-- **Contenedores:** Docker y Docker Compose
-- **Base de datos:** SQL Server 2022 (en contenedor Docker)
-- **Herramientas adicionales:**
-  - Postman/Insomnia (para pruebas manuales)
-  - IDE: Eclipse, IntelliJ IDEA o VS Code
-
-## 2. Desarrollo
-
 ### Código fuente principal
 
 #### Clase principal de la aplicación
