@@ -227,7 +227,7 @@ public class SongController {
 
 ## 3. Pruebas funcionales
 
-A continuación se muestran ejemplos de pruebas realizadas sobre los endpoints principales del microservicio utilizando una herramienta como Postman o Insomnia. Cada prueba incluye la descripción, el método HTTP, la URL y la evidencia visual del resultado.
+A continuación se muestran ejemplos de pruebas realizadas sobre los endpoints principales del microservicio
 
 ### Obtener canción por ID
 - **Método:** GET
