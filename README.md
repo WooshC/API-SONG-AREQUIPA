@@ -64,35 +64,6 @@ Una vez publicado el microservicio, realiza pruebas utilizando Postman, Insomnia
 - **PUT**/**PATCH** - Actualizar una canción
 - **DELETE** - Eliminar una canción
 
-Las capturas deben mostrar la URL del endpoint, el método HTTP, el body de la petición (cuando aplique) y la respuesta exitosa (código de estado 200, 201, etc.).
-
-## Documentación técnica
-1. **Configuración inicial:** Herramientas, lenguajes, bibliotecas y frameworks utilizados.
-2. **Desarrollo:**
-   - Explicación del código fuente paso a paso.
-   - Capturas de pantalla y comandos clave utilizados.
-3. **Pruebas funcionales:** Demuestra el funcionamiento local de las operaciones CRUD mediante herramientas como Postman o Insomnia.
-4. **Despliegue:**
-   - Explicación de cómo se realizó el despliegue (contenedorizado o en la nube).
-   - Incluye capturas de pantalla del microservicio en funcionamiento en el entorno de despliegue.
-
-## Publicar en Docker Hub
-
-1. **Inicia sesión en Docker Hub:**
-   ```sh
-   docker login
-   ```
-2. **Construye la imagen:**
-   ```sh
-   docker build -t <tu_usuario>/songapi:latest .
-   ```
-3. **Sube la imagen a Docker Hub:**
-   ```sh
-   docker push <tu_usuario>/songapi:latest
-   ```
-4. **(Opcional) Usa la imagen en la nube:**
-   - Puedes usar la imagen publicada en Docker Hub para desplegar en Azure, AWS, GCP, etc.
-
 ---
 
 **Autor:** Moises Arequipa
