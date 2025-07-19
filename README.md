@@ -271,7 +271,57 @@ public class SongController {
 
 ## 3. Pruebas funcionales
 
-*(Incluye aquí tus capturas de pantalla y descripciones de pruebas con Postman, Insomnia, etc. mostrando los endpoints CRUD funcionando.)*
+A continuación se muestran ejemplos de pruebas realizadas sobre los endpoints principales del microservicio utilizando una herramienta como Postman o Insomnia. Cada prueba incluye la descripción, el método HTTP, la URL y la evidencia visual del resultado.
+
+### Obtener canción por ID
+- **Método:** GET
+- **Endpoint:** `/api/songs/1`
+- **Descripción:** Obtiene la información de la canción con ID 1.
+
+![Obtener canción por ID](image.png)
+
+### Modificar una canción
+- **Método:** PUT
+- **Endpoint:** `/api/songs/1`
+- **Descripción:** Modifica los datos de la canción con ID 1.
+
+![Modificar canción - Request](image-1.png)
+![Modificar canción - Response](image-2.png)
+
+#### Verificar modificación
+- **Método:** GET
+- **Endpoint:** `/api/songs/1`
+- **Descripción:** Se consulta nuevamente la canción para verificar que los cambios fueron aplicados.
+
+![Ver modificación](image-3.png)
+
+### Borrar canción por ID
+- **Método:** DELETE
+- **Endpoint:** `/api/songs/1`
+- **Descripción:** Elimina la canción con ID 1.
+
+![Borrar canción - Request](image-5.png)
+![Borrar canción - Response](image-6.png)
+
+### Ver lista de canciones
+- **Método:** GET
+- **Endpoint:** `/api/songs`
+- **Descripción:** Muestra la lista de canciones, evidenciando que la canción con ID 1 fue eliminada.
+
+![Lista de canciones](image-7.png)
+![Lista de canciones - Detalle](image-8.png)
+
+### Registrar nueva canción
+- **Método:** POST
+- **Endpoint:** `/api/songs`
+- **Descripción:** Registra una nueva canción en la base de datos.
+
+![Registrar canción - Request](image-9.png)
+
+#### Registro exitoso
+- **Descripción:** Respuesta exitosa del registro de la nueva canción.
+
+![Registro exitoso](image-10.png)
 
 ## 4. Despliegue
 
@@ -287,4 +337,15 @@ public class SongController {
   docker build -t <tu_usuario>/songapi:latest .
   docker push <tu_usuario>/songapi:latest
   ```
+
+**c) Despliegue en Azure Web App for Containers:**
+1. Se creó una Web App en Azure Portal, seleccionando “Contenedor Docker” como método de despliegue.
+2. Se configuró el origen de la imagen como Docker Hub, indicando la imagen `<tu_usuario>/songapi:latest`.
+3. Se estableció el puerto de la aplicación en 8080.
+4. (Opcional) Se configuraron variables de entorno para la conexión a la base de datos si se usó una base en la nube.
+5. Se revisó y creó la aplicación, obteniendo una URL pública para acceder al microservicio.
+
+**d) Verificación:**
+- Se accedió a la URL pública proporcionada por Azure y se verificó el funcionamiento de los endpoints y la documentación Swagger.
+
 ---
