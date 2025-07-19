@@ -287,15 +287,4 @@ public class SongController {
   docker build -t <tu_usuario>/songapi:latest .
   docker push <tu_usuario>/songapi:latest
   ```
-
-**c) Despliegue en Azure Web App for Containers:**
-1. Se creó una Web App en Azure Portal, seleccionando “Contenedor Docker” como método de despliegue.
-2. Se configuró el origen de la imagen como Docker Hub, indicando la imagen `<tu_usuario>/songapi:latest`.
-3. Se estableció el puerto de la aplicación en 8080.
-4. (Opcional) Se configuraron variables de entorno para la conexión a la base de datos si se usó una base en la nube.
-5. Se revisó y creó la aplicación, obteniendo una URL pública para acceder al microservicio.
-
-**d) Verificación:**
-- Se accedió a la URL pública proporcionada por Azure y se verificó el funcionamiento de los endpoints y la documentación Swagger.
-
 ---
